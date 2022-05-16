@@ -3,13 +3,13 @@
     flex-wrap: wrap;
     width: 400px;
     height: 400px;
-    background-color: rgb(141, 141, 198);
+    background-color: rgba(141, 141, 198, 0.834);
 }
 
 .grid div {
     width: 100px;
     height: 100px;
-    background-color: rgb(255, 255, 166);
+    background-color: #e7eaf6;
     font-size: 60px;
     text-align: center;
     font-weight: bold;

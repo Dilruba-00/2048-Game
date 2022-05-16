@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultDisplay = document.getElementById('result')
     const width = 4
     let squares = []
+    let score = 0
 
     //create a playing board 
     function createBoard() {
@@ -24,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
        let randomNumber = Math.floor(Math.random() * squares.length)
         if (squares[randomNumber].innerHTML == 0) {
             squares[randomNumber].innerHTML = 2
+            checkForGameOver()
         } else generate()
     }
 
@@ -122,8 +124,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 let combinedTotal = parseInt(squares[i].innerHTML) * parseInt(squares[i+1].innerHTML)
                 squares[i].innerHTML = combinedTotal
                 squares[i+1].innerHTML = 0
+                score += combinedTotal
+                scoreDisplay.innerHTML = score
             }
         }
+        checkForWin()
     }
 
     
@@ -133,8 +138,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 let combinedTotal = parseInt(squares[i].innerHTML) * parseInt(squares[i+1].innerHTML)
                 squares[i].innerHTML = combinedTotal
                 squares[i+1].innerHTML = 0
+                score = combinedTotal
+                scoreDisplay.innerHTML = score
             }
         }
+        checkForWin()
     }
 
     //assign keycodes
@@ -143,6 +151,10 @@ document.addEventListener('DOMContentLoaded', () => {
             keyRight()
         } else if (e.keyCode === 37) {
             keyLeft()
+        } else if (e.keyCode === 38) {
+            keyUp()
+        } else if (e.keyCode === 40) {
+            keyDown()
         }
     }
     document.addEventListener('keyup', control)
@@ -175,6 +187,29 @@ document.addEventListener('DOMContentLoaded', () => {
         generate()
     }
 
+    //check for the number 2048 in the squares to win
+    function checkForWin() {
+        for(let i = 0; i < squares.length; i++) {
+            if (squares[i].innerHTML == 2048) {
+                resultDisplay.innerHTML = 'You Win!'
+                document.removeEventListener('keyup', control)
+            }
+        }
+    }
+
+    //check if there are zeros on the board to lose
+    function checkForGameOver() {
+        let zeros = 0
+        for(let i = 0; i < squares.length; i++) {
+            if(squares[i].innerHTML == 0) {
+                zeros++
+            }
+        }
+        if (zeros === 0) {
+            resultDisplay.innerHTML = 'you Lose!'
+            document.removeEventListener('keyup', control)
+        }
+    }
 
 
 
